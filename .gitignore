@@ -1,0 +1,23 @@
+# build output
+build/
+build-*/
+dist/
+out/
+
+# JUCE (fetched automatically by CMake, or downloaded by build_windows.bat)
+JUCE/
+juce_download.zip
+
+# logs
+make_package_log.txt
+*.log
+
+# editors / OS
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+desktop.ini

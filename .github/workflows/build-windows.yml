@@ -1,0 +1,35 @@
+name: Build (Windows)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -A x64
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Collect package
+        shell: pwsh
+        run: |
+          $dest = "dist/MultiHost16"
+          New-Item -ItemType Directory -Force $dest | Out-Null
+          Copy-Item -Recurse "build/MultiHost16_artefacts/Release/VST3/MultiHost 16.vst3" $dest
+          Copy-Item "build/MultiHost16Scanner_artefacts/Release/MultiHost16Scanner.exe" $dest
+          Copy-Item "install_for_test.bat","TESTERS.md","MANUAL.md" $dest
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MultiHost16-windows
+          path: dist/MultiHost16
