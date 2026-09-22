@@ -61,7 +61,7 @@
 
 ## ライセンス
 
-This software is licensed under the AGPL-3.0.
-Source: https://github.com/<ユーザー名>/MultiHost16
+MultiHost 16 is licensed under the GNU Affero General Public License v3.0 or later.
 
-（公開後、上記 URL を実際のものに差し替えてください）
+本ソフトウェアは AGPL-3.0-or-later で配布されています。
+ソースコードは GitHub リポジトリで公開されています。

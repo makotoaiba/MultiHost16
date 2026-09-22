@@ -1,2 +1,13 @@
-# Auto detect text files and perform LF normalization
+# 改行コードの扱いを固定する。
+# これが無いと Windows と Git の間で改行が勝手に変わり、
+# 差分が全行変更になったり、.bat が動かなくなることがある。
+
 * text=auto
+
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.sh   text eol=lf
+*.yml  text eol=lf
+
+*.png binary
+*.zip binary

@@ -192,31 +192,30 @@ MultiHost16_v1.2.0/
 
 ## ライセンス
 
-本プロジェクトは **AGPL-3.0** で配布することを想定しています。
-公開手順は [PUBLISHING.md](PUBLISHING.md) を参照してください。
+MultiHost 16 is free software, licensed under the
+**GNU Affero General Public License v3.0 or later**.
 
-| 依存 | ライセンス |
+本ソフトウェアは **AGPL-3.0-or-later** で配布されています。
+自由に使用・改変・再配布できますが、改変版を配布する場合は
+同じライセンスでソースコードを提供する必要があります。
+詳細は [LICENSE](LICENSE) を参照してください。
+
+### 依存ライブラリ
+
+| ライブラリ | ライセンス |
 |---|---|
-| 本体 | AGPL-3.0-or-later |
-| JUCE 8 | AGPLv3 または商用のデュアル → AGPLv3 側を選択 |
-| VST 3 SDK 3.8.0 以降 | MIT |
-| VST 3 SDK 3.7 系（JUCE 8.0.6 同梱） | GPLv3（AGPLv3 との結合は許容） |
+| [JUCE 8](https://juce.com) | AGPLv3 / 商用のデュアルライセンス（本プロジェクトは AGPLv3 を選択） |
+| [VST 3 SDK](https://www.steinberg.net/developers/) 3.8.0 以降 | MIT |
+| VST 3 SDK 3.7 系（JUCE 8.0.6 同梱） | GPLv3（AGPLv3 との結合が認められています） |
 
-**AGPL-3.0 でソースを公開すれば、JUCE の商用ライセンスを購入せずに
-バイナリを配布できます。** 社外配布も可能になります。
+ビルドには JUCE が必要です。CMake が自動で取得するため、
+事前の準備は不要です。
 
-Steinberg は 2025年10月の VST 3.8.0 で VST 3 SDK を MIT ライセンスへ
-移行しました。以前の「Steinberg と契約するか GPLv3 か」という
-二択は解消されています。
+### 商標
 
-> VST は Steinberg Media Technologies GmbH の商標です。
-> ロゴを使用する場合は Steinberg の規約に従ってください。
-
-**業務として作ったものであれば、公開前に会社の承認を取ってください。**
-著作権が会社に帰属している可能性があります。
-ここに書いた内容は法律上の助言ではありません。
-
-最新条件: https://juce.com/legal/ / https://www.steinberg.net/developers/
+VST は Steinberg Media Technologies GmbH の登録商標です。
+本プロジェクトは Steinberg とは無関係であり、同社による承認や
+支援を受けたものではありません。
 
 ---
 
@@ -225,7 +224,6 @@ Steinberg は 2025年10月の VST 3.8.0 で VST 3 SDK を MIT ライセンスへ
 ```
 MultiHost16/
 ├── CMakeLists.txt
-├── PUBLISHING.md         … GitHub 公開手順
 ├── .github/workflows/    … Windows 自動ビルド (GitHub Actions)
 ├── .gitignore
 ├── build_windows.bat     … Windows ビルド用（JUCE 自動取得）
