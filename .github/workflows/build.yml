@@ -1,0 +1,55 @@
+name: Build & Release (Windows VST3)
+
+# main への push でビルド（Artifactsに保存）
+# v1.0.0 のようなタグを push すると、Releases に zip 付きで正式公開
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -A x64
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Collect VST3 bundles
+        id: collect
+        shell: pwsh
+        run: |
+          # どのプロジェクトでも使えるよう、Release\VST3 直下の .vst3 バンドルを自動で探す
+          $bundles = Get-ChildItem -Path build -Recurse -Directory -Filter *.vst3 |
+                     Where-Object { $_.Parent.Name -eq 'VST3' -and $_.Parent.Parent.Name -eq 'Release' }
+          if (-not $bundles) { throw "VST3 bundle not found" }
+          New-Item -ItemType Directory -Force dist | Out-Null
+          foreach ($b in $bundles) { Copy-Item -Recurse $b.FullName (Join-Path dist $b.Name) }
+          Get-ChildItem dist | ForEach-Object { Write-Host "bundle: $($_.Name)" }
+
+          $name = "${{ github.event.repository.name }}"
+          $ver  = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}" } else { "dev" }
+          $zip  = "$name-$ver-Windows-VST3.zip"
+          Compress-Archive -Path dist/* -DestinationPath $zip -Force
+          "zip=$zip" >> $env:GITHUB_OUTPUT
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-VST3
+          path: dist
+
+      - name: Release (tag only)
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.collect.outputs.zip }}
+          generate_release_notes: true
